@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, ReplaySubject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
-  baseUrl="https://localhost:5001/api/" ; 
+  baseUrl=environment.apiUrl; 
   currentUserSource = new ReplaySubject<User | null>(1);//ovo jedan je velicina buffera
   currentUser$ =  this.currentUserSource.asObservable();
   public isLoggedIn = false ; 

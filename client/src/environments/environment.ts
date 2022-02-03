@@ -3,8 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
-};
+  production: false,
+  apiUrl : "https://localhost:5001/api/", //ovde u enviroment.ts definnisemo vrednosti koje ce
+};                                       //imaju neke promenljive u fazi developmenta
 
 /*
  * For easier debugging in development mode, you can import the following file
