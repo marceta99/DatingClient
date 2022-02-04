@@ -11,7 +11,7 @@ export class AccountService {
   baseUrl=environment.apiUrl; 
   currentUserSource = new ReplaySubject<User | null>(1);//ovo jedan je velicina buffera
   currentUser$ =  this.currentUserSource.asObservable();
-  public isLoggedIn = false ; 
+  public isLoggedIn =true;//= false ; 
 
   constructor(private http: HttpClient) { }
 
