@@ -23,7 +23,7 @@ export class AccountService {
           localStorage.setItem('user',JSON.stringify(user)) //cuva ovog usera u local storage browsera
                  //i to se cuva kao key value pairs gde je 'user' key, a ovaj objekat user koji smo
                 //strigify u string, on je value
-          this.currentUserSource.next(user);
+          this.setCurrentUser(user);
           this.isLoggedIn = true ; 
               }})
                 )
@@ -43,7 +43,8 @@ export class AccountService {
         const user = response; 
         if(user){
           localStorage.setItem('user',JSON.stringify(user))
-          this.currentUserSource.next(user);
+          //this.currentUserSource.next(user);
+          this.setCurrentUser(user);
           this.isLoggedIn = true ; 
               }
           return response ; 

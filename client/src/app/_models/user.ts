@@ -3,5 +3,6 @@
 
 export interface User{
     userName: string ; 
-    token : string ; 
+    token : string ;
+    mainPhotoUrl: string; 
 } 
