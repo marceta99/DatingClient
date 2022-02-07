@@ -1,15 +1,119 @@
-<form #registerForm="ngForm" (ngSubmit)="register()">
+<!--ovo registerForm.valid ko submita smo stavili jer necemo da korisnik moze da submituje
+formu ako forma nije validna .I posto forma moze da se submituje i samo klikom enter , onda 
+ce ovo da nam obezbedi i tu situaciju jer zbog && ako forma nije validna, zbog lazy loading 
+ovo register() nece ni da se pozove -->
+<form [formGroup]="registerForm" (ngSubmit)="registerForm.valid && register()">
     <h2 class="text-center text-primery">Sign Up</h2>
     <hr>
     <div class="form-group">
-        <input type="text" class="form-control" name="username" [(ngModel)]="model.username" placeholder="userName">
+        <input 
+        [ngClass]="registerForm.get('userName')?.errors && 
+            registerForm.get('userName')?.touched ? 'is-invalid': ''"
+        type="text" 
+        class="form-control"
+        formControlName="userName"
+        placeholder="userName">
+
+        <span *ngIf="registerForm.get('userName')?.errors && 
+        registerForm.get('userName')?.touched">Please enter a userName</span>
     </div>
     <div class="form-group">
-        <input type="password" class="form-control" name="password" [(ngModel)]="model.password" placeholder="password">
+        <input
+        [ngClass]="registerForm.get('password')?.errors && 
+            registerForm.get('password')?.touched ? 'is-invalid': ''"
+         type="password"
+         class="form-control"
+         formControlName="password"
+         placeholder="password">
+
+        <span *ngIf="registerForm.get('password')?.errors?.['required'] && 
+        registerForm.get('password')?.touched">Please enter a password</span>
+        <span *ngIf="registerForm.get('password')?.errors?.['minlength'] && 
+        registerForm.get('password')?.touched">Password must be at least 2 characters</span>
+        <span *ngIf="registerForm.get('password')?.errors?.['maxlength'] && 
+        registerForm.get('password')?.touched">Password must be at most 15 characters</span>
+    </div>
+    <div class="form-group">
+        <input
+          [ngClass]="registerForm.get('confirmPassword')?.errors && 
+            registerForm.get('confirmPassword')?.touched ? 'is-invalid': ''"
+          type="password"
+          class="form-control" 
+          formControlName="confirmPassword"
+          placeholder="confirmPassword">
+
+          <span *ngIf="registerForm.get('confirmPassword')?.errors?.['required'] && 
+        registerForm.get('confirmPassword')?.touched">Please enter a password</span>
+        <span *ngIf="registerForm.get('confirmPassword')?.errors?.['passwordIsCorrect'] && 
+        registerForm.get('confirmPassword')?.touched">Confirm password must match password</span>
+    </div>
+    <div class="form-group">
+        <label class="control-label" style="margin-right: 10px;">I am a : </label>
+        <label class="radio-inline">
+            <input type="radio" formControlName="gender" value="male"> Male
+        </label>
+        <label class="radio-inline">
+            <input type="radio" formControlName="gender" value="female" class="ml-3"> Female
+        </label>
+    </div>
+    <div class="form-group">
+        <input 
+        [ngClass]="registerForm.get('knownAs')?.errors && 
+            registerForm.get('knownAs')?.touched ? 'is-invalid': ''"
+        type="text" 
+        class="form-control"
+        formControlName="knownAs"
+        placeholder="knownAs">
+
+        <span *ngIf="registerForm.get('knownAs')?.errors && 
+        registerForm.get('knownAs')?.touched">Please enter a knownAs</span>
+    </div>
+    <div class="form-group">
+        <input 
+        [ngClass]="registerForm.get('dateOfBirth')?.errors && 
+            registerForm.get('dateOfBirth')?.touched ? 'is-invalid': ''"
+        type="date" 
+        min="1930-01-01" max ="2004-01-01"
+        class="form-control"
+        formControlName="dateOfBirth"
+        placeholder="dateOfBirth">
+
+        <span *ngIf="registerForm.get('dateOfBirth')?.errors && 
+        registerForm.get('dateOfBirth')?.touched">Please enter a dateOfBirth</span>
+    </div>
+    <div class="form-group">
+        <input 
+        [ngClass]="registerForm.get('city')?.errors && 
+            registerForm.get('city')?.touched ? 'is-invalid': ''"
+        type="text" 
+        class="form-control"
+        formControlName="city"
+        placeholder="city">
+
+        <span *ngIf="registerForm.get('city')?.errors && 
+        registerForm.get('city')?.touched">Please enter a city</span>
+    </div>
+    <div class="form-group">
+        <input 
+        [ngClass]="registerForm.get('country')?.errors && 
+            registerForm.get('country')?.touched ? 'is-invalid': ''"
+        type="text" 
+        class="form-control"
+        formControlName="country"
+        placeholder="country">
+
+        <span *ngIf="registerForm.get('country')?.errors && 
+        registerForm.get('country')?.touched">Please enter a country</span>
     </div>
     <div class="form-group text-center">
-       <button class="btn btn-success mr-2" type="submit">Register</button>
+       <button [disabled]="!registerForm.valid" class="btn btn-success mr-2" type="submit">Register</button>
        <button class="btn btn-default mr-2" type="button" (click)="cancel()">Cancel</button>
     </div>
-
+    <div class="row mt-5" *ngIf="valdationErrors.length > 0">
+        <ul class="text-danger">
+          <li *ngFor="let error of valdationErrors">{{error}}</li>
+        </ul>
+      </div>
 </form>
+
+

@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { NavComponent } from './nav/nav.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { HomeComponent } from './home/home.component';
@@ -29,6 +29,8 @@ import { LoadinggInterceptor } from './interceptors/loading.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+
 
 @NgModule({
   declarations: [
@@ -46,6 +48,7 @@ import { FileUploadModule } from 'ng2-file-upload';
     MemberCardComponent,
     MemberEditComponent,
     PhotoEditorComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -61,7 +64,9 @@ import { FileUploadModule } from 'ng2-file-upload';
     TabsModule.forRoot(), 
     NgxGalleryModule,
     NgxSpinnerModule, 
-    FileUploadModule
+    FileUploadModule,
+    ReactiveFormsModule,
+    BsDatepickerModule
   ],
   providers: [
     {provide : HTTP_INTERCEPTORS, useClass: ErrorInterceptor , multi: true},
