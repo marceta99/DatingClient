@@ -21,6 +21,7 @@ export class MembersService {
   baseUrl = environment.apiUrl ; 
   members: Member[]=[];
   paginatedResult : PaginatedResult<Member[]> = new PaginatedResult<Member[]>(); 
+  
 
   constructor(private http: HttpClient) { }
 
@@ -88,7 +89,27 @@ export class MembersService {
   addLike(sourceUserName: string, likedUserName : string){
     return this.http.post(this.baseUrl + "likes/"+ sourceUserName+"/"+likedUserName,{}) ;
   }
-  getLikes(sourceUserName: string, predicate : string){
-    return this.http.get(this.baseUrl+ "likes/"+sourceUserName+"?predicate="+predicate); 
+  getLikes(sourceUserName :string ,predicate : string ,pageNumber : number, pageSize : number){
+    let params = new HttpParams(); 
+
+    params = params.append('predicate' ,predicate) ;
+    if(pageNumber !== null && pageSize !== null ){  
+      params = params.append('PageNumber' ,pageNumber.toString()) ;
+      params = params.append('PageSize',pageSize.toString());                                                                 
+     }
+
+    return this.http.get<Partial<Member[]>>(this.baseUrl+ "likes/"+sourceUserName ,
+    {observe : 'response', params} ).pipe(
+      map(response =>{
+        this.paginatedResult.result = response.body as Member[] ; 
+
+        if(response.headers.get('Pagination')!== null){
+          //ovo je ono pagination sto nam stigne u headeru od responsa od servera gde imamo koliko
+          //strana, koliko elemenata po strani , koliko ima ukupno elemenata itd...
+          this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination') as string);
+        }
+        return this.paginatedResult ; 
+      })
+    );  
   }
 }
