@@ -32,6 +32,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import {PaginationModule} from 'ngx-bootstrap/pagination'; 
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
     MemberCardComponent,
     MemberEditComponent,
     PhotoEditorComponent,
+    MemberMessagesComponent,
 
   ],
   imports: [

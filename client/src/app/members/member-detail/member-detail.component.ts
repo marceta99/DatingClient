@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
+import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
 import { Member } from 'src/app/_models/member';
 import { MembersService } from 'src/app/_services/members.service';
 
@@ -10,13 +11,21 @@ import { MembersService } from 'src/app/_services/members.service';
   styleUrls: ['./member-detail.component.css']
 })
 export class MemberDetailComponent implements OnInit {
+  @ViewChild("memberTabs") memberTabs! :TabsetComponent ; 
+  activeTab! : TabDirective ; //ovo TabDirective i TabsetComponent dolaze iz paketa ngx/bootstrap
+  displayMessagesTab: boolean = false; 
   member!: Member;
   galleryOptions! : NgxGalleryOptions[];
   galleryImages! : NgxGalleryImage[]; 
 
+
   constructor(private memberService : MembersService , private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params =>{
+      params.tab ? this.selectTab(params.tab) : this.selectTab(0) ;
+    })
+
     this.loadMember(); 
 
     this.galleryOptions = [
@@ -43,7 +52,6 @@ export class MemberDetailComponent implements OnInit {
     return imageUrls;
   }
 
-
   loadMember(){
     this.memberService.getMember(this.route.snapshot.paramMap.get("userName") as string).subscribe(
       member =>{
@@ -52,4 +60,16 @@ export class MemberDetailComponent implements OnInit {
       }
     )
   }
+  onTabActivated(data : TabDirective){
+    this.activeTab = data ; 
+    if(this.activeTab.heading === "Messages"){
+      this.displayMessagesTab = true ;  
+    }
+  }
+  selectTab(tabId :number){
+    if( this.memberTabs &&this.memberTabs.tabs){
+      this.memberTabs.tabs[tabId].active = true ; 
+  }
+}
+
 }
